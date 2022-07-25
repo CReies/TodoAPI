@@ -1,0 +1,4 @@
+/			-> 404
+/users			-> users
+/users/:id		-> user
+/
