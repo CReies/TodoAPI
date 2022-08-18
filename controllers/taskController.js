@@ -1,8 +1,13 @@
 const Task = require('../models/Task');
 
 module.exports = {
-	getAll: async (_req, res) => {
-		const tasks = await Task.find();
+	getAll: async (req, res) => {
+		const { page, limit } = req.query;
+		// TODO find({ user: req.user._id })
+		const tasks = await Task.find()
+			.skip(page * limit)
+			.limit(limit)
+			.sort({ createdAt: -1 });
 		return res.json(tasks);
 	},
 

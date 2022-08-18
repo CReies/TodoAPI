@@ -1,7 +1,10 @@
 const mongoose = require('mongoose');
+const debug = require('debug')('todoapi:db');
 
 // DB connect
 const uri = process.env.URI_MONGO;
+
+debug.enabled = true;
 
 module.exports = async () => {
 	try {
@@ -9,8 +12,8 @@ module.exports = async () => {
 			useNewUrlParser: true,
 			useUnifiedTopology: true,
 		});
-		console.log('Database connected');
+		debug('Connected to MongoDB');
 	} catch (error) {
-		console.log(error);
+		debug(error);
 	}
 };
