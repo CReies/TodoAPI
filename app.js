@@ -22,6 +22,7 @@ require('./db/connection')();
 
 // Routes
 app.use('/api/tasks', require('./routes/tasks'));
+app.use('/api/categories', require('./routes/categories'));
 
 // Catch 404 and forward to error handler
 app.use(function (_req, _res, next) {

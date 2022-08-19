@@ -1,8 +1,8 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
-const taskSchema = new Schema({
-	title: {
+const categorySchema = new Schema({
+	name: {
 		type: String,
 		required: true,
 		minlength: 3,
@@ -13,22 +13,18 @@ const taskSchema = new Schema({
 		minlength: 3,
 		maxlength: 255,
 	},
-	category: {
-		type: Schema.Types.ObjectId,
-		required: false,
-		minlength: 3,
-		maxlength: 255,
-	},
-	completed: {
-		type: Boolean,
-		default: false,
-	},
 	createdAt: {
 		type: Date,
 		default: Date.now,
 	},
+	tasks: [
+		{
+			type: Schema.Types.ObjectId,
+			ref: 'Task',
+		},
+	],
 });
 
-const Task = mongoose.model('Task', taskSchema);
+const Category = mongoose.model('Category', categorySchema);
 
-module.exports = Task;
+module.exports = Category;
