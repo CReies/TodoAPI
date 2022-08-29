@@ -29,6 +29,14 @@ const taskSchema = new Schema({
 	},
 });
 
+taskSchema.set('toJSON', {
+	transform: (_document, returnedObject) => {
+		returnedObject.id = returnedObject._id;
+		delete returnedObject._id;
+		delete returnedObject.__v;
+	},
+});
+
 const Task = mongoose.model('Task', taskSchema);
 
 module.exports = Task;
