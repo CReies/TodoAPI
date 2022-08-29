@@ -6,10 +6,8 @@ const {
 	create,
 	update,
 	deleteOne,
-	complete,
-	uncomplete,
 	search,
-} = require('../controllers/taskController');
+} = require('../controllers/categoryController');
 
 router.get('/', getAll);
 
