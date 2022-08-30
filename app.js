@@ -25,4 +25,7 @@ app.use((_req, _res, next) => {
 	next(createError(404));
 });
 
+// Error Handler
+app.use(require('./middlewares/errorMiddleware'));
+
 module.exports = app;
