@@ -11,7 +11,7 @@ module.exports = {
 				.populate('category')
 				.skip(page * limit)
 				.limit(limit)
-				.sort({ createdAt: -1 });
+				.sort({ createdAt: 1 });
 
 			return res.json(tasks);
 		} catch (err) {
