@@ -77,7 +77,7 @@ module.exports = {
 
 			if (!task) return nxt(createError(404, "Task doesn't exist"));
 
-			task.delete();
+			await task.delete();
 
 			return res.json({
 				status: 'Task Deleted',
@@ -90,8 +90,12 @@ module.exports = {
 	complete: async (req, res, nxt) => {
 		try {
 			const { id } = req.params;
-			const task = await Task.findByIdAndUpdate(id, { completed: true }).lean();
-			return res.json(task);
+			const task = await Task.findById(id);
+			if (!task) return nxt(createError(404, "Task doesn't exist"));
+
+			await task.update({ completed: true });
+
+			return res.json('Task Modified');
 		} catch (err) {
 			return nxt(createError(500, err.message));
 		}
@@ -100,10 +104,12 @@ module.exports = {
 	uncomplete: async (req, res, nxt) => {
 		try {
 			const { id } = req.params;
-			const task = await Task.findByIdAndUpdate(id, {
-				completed: false,
-			}).lean();
-			return res.json(task);
+			const task = await Task.findById(id);
+			if (!task) return nxt(createError(404, "Task doesn't exist"));
+
+			await task.update({ completed: false });
+
+			return res.json('Task Modified');
 		} catch (err) {
 			return nxt(createError(500, err.message));
 		}
