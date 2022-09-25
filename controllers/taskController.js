@@ -39,7 +39,7 @@ module.exports = {
 	create: async (req, res, nxt) => {
 		try {
 			const task = new Task(req.body);
-			const categoryId = req.body.category;
+			const categoryId = req.body.category || '0';
 			const category = await Category.findById(categoryId);
 
 			if (!category) return nxt(createError(400, "Category doesn't exist"));

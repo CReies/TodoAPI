@@ -3,7 +3,11 @@ const Schema = mongoose.Schema;
 
 const taskSchema = new Schema(
 	{
-		_id: { type: String, default: new mongoose.Types.ObjectId().toString() },
+		_id: {
+			type: String,
+			default: () => new mongoose.Types.ObjectId(),
+			auto: true,
+		},
 		title: {
 			type: String,
 			required: true,
@@ -17,9 +21,8 @@ const taskSchema = new Schema(
 		},
 		category: {
 			type: String,
-			required: false,
-			minlength: 3,
-			maxlength: 255,
+			required: true,
+			default: '0',
 		},
 		completed: {
 			type: Boolean,

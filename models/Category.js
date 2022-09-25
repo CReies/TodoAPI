@@ -3,7 +3,10 @@ const Schema = mongoose.Schema;
 
 const categorySchema = new Schema(
 	{
-		_id: { type: String, default: new mongoose.Types.ObjectId().toString() },
+		_id: {
+			type: String,
+			default: () => new mongoose.Types.ObjectId().toString(),
+		},
 		title: {
 			type: String,
 			required: true,
@@ -17,8 +20,8 @@ const categorySchema = new Schema(
 		},
 		color: {
 			type: String,
-			length: 6,
-			default: '6e6e6e',
+			length: 7,
+			default: '#6e6e6e',
 		},
 		createdAt: {
 			type: Date,
