@@ -1,5 +1,6 @@
 const createError = require('http-errors');
 const Category = require('../models/Category');
+const Task = require('../models/Task');
 
 module.exports = {
 	getAll: async (_req, res, nxt) => {
@@ -47,7 +48,15 @@ module.exports = {
 	deleteOne: async (req, res, nxt) => {
 		try {
 			const { id } = req.params;
-			await Category.findByIdAndDelete(id);
+			const category = await Category.findById(id)
+			const tasks = await Task.find({category: id})
+
+			for (let task of tasks){
+				task.updateOne({category:"0"})
+			}
+
+			category.deleteOne();
+
 			return res.json({
 				status: 'Category Deleted',
 			});
