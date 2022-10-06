@@ -14,8 +14,6 @@ module.exports = {
 				.sort({ createdAt: 1 })
 				.lean();
 
-			if (tasks.length === 0) return res.json('Create a task!');
-
 			return res.json(tasks);
 		} catch (err) {
 			return nxt(createError(500, err.message));
@@ -93,7 +91,7 @@ module.exports = {
 			const task = await Task.findById(id);
 			if (!task) return nxt(createError(404, "Task doesn't exist"));
 
-			await task.update({ completed: true });
+			await task.updateOne({ completed: true });
 
 			return res.json('Task Modified');
 		} catch (err) {
@@ -107,7 +105,7 @@ module.exports = {
 			const task = await Task.findById(id);
 			if (!task) return nxt(createError(404, "Task doesn't exist"));
 
-			await task.update({ completed: false });
+			await task.updateOne({ completed: false });
 
 			return res.json('Task Modified');
 		} catch (err) {
