@@ -65,3 +65,5 @@ typings/
 .VSCode**
 
 package-lock.json
+
+dist/*

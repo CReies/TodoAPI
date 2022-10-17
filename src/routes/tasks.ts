@@ -1,13 +1,15 @@
-const express = require('express');
-const router = express.Router();
-const {
+import express from 'express';
+import {
 	getAll,
 	getOne,
 	create,
 	update,
 	deleteOne,
+	complete,
+	uncomplete,
 	search,
-} = require('../controllers/categoryController');
+} from '../controllers/taskController';
+const router = express.Router();
 
 router.get('/', getAll);
 
@@ -19,6 +21,10 @@ router.post('/', create);
 
 router.put('/:id', update);
 
+router.put('/complete/:id', complete);
+
+router.put('/uncomplete/:id', uncomplete);
+
 router.delete('/:id', deleteOne);
 
-module.exports = router;
+export default router;

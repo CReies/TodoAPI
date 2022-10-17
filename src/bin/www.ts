@@ -3,21 +3,23 @@
 /**
  * Module dependencies.
  */
+import http from 'http';
+import createDebugMessages from 'debug';
+import app from '../app';
 
-const app = require('../app');
-const debug = require('debug')('todoapi:server');
-const http = require('http');
+const debug = createDebugMessages('todoapi:server');
+debug.enabled = true;
 
 /**
  * Normalize a port into a number, string, or false.
  */
 
-const normalizePort = (val) => {
-	const normalPort = parseInt(val, 10);
+const normalizePort = (val: number | string | undefined): number => {
+	const normalPort = parseInt(String(val), 10) ?? 3000;
 
 	if (isNaN(normalPort)) {
 		// named pipe
-		return val;
+		return Number(val);
 	}
 
 	if (normalPort >= 0) {
@@ -25,19 +27,19 @@ const normalizePort = (val) => {
 		return normalPort;
 	}
 
-	return false;
+	return 3000;
 };
 
 /**
  * Event listener for HTTP server "error" event.
  */
 
-const onError = (error) => {
+const onError = (error: NodeJS.ErrnoException): void => {
 	if (error.syscall !== 'listen') {
 		throw error;
 	}
 
-	const bind = typeof port === 'string' ? 'Pipe ' + port : 'Port ' + port;
+	const bind = `${typeof port === 'string' ? 'Pipe' : 'Port'} ${port}`;
 
 	// handle specific listen errors with friendly messages
 	switch (error.code) {
@@ -58,20 +60,27 @@ const onError = (error) => {
  * Event listener for HTTP server "listening" event.
  */
 
-const onListening = () => {
+const onListening = (): void => {
 	const addr = server.address();
-	const bind = typeof addr === 'string' ? 'pipe ' + addr : 'port ' + addr.port;
+	if (addr == null) {
+		server.close();
+		return;
+	}
+
+	const bind =
+		typeof addr === 'string'
+			? 'pipe ' + addr
+			: `port ${addr.port}\n${addr.address}`;
 	console.log('\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n');
 	console.log('==============================\n');
 	debug('Listening on ' + bind);
-	debug(`http://localhost:${addr.port}`);
 };
 
 /**
  * Get port from environment and store in Express.
  */
 
-const port = normalizePort(process.env.PORT || '3000');
+const port = normalizePort(process.env.PORT);
 app.set('port', port);
 
 /**
@@ -83,8 +92,6 @@ const server = http.createServer(app);
 /**
  * Listen on provided port, on all network interfaces.
  */
-
-debug.enabled = true;
 
 server.listen(port);
 server.on('error', onError);

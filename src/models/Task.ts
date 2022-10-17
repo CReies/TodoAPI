@@ -1,11 +1,12 @@
-const mongoose = require('mongoose');
-const Schema = mongoose.Schema;
+import { Schema, model } from 'mongoose';
+import { v4 } from 'uuid';
+import { ITask } from '../util/types';
 
-const taskSchema = new Schema(
+const taskSchema = new Schema<ITask>(
 	{
 		_id: {
 			type: String,
-			default: () => new mongoose.Types.ObjectId(),
+			default: v4(),
 			auto: true,
 		},
 		title: {
@@ -36,6 +37,6 @@ const taskSchema = new Schema(
 	{ _id: false }
 );
 
-const Task = mongoose.model('Task', taskSchema);
+const Task = model('Task', taskSchema);
 
-module.exports = Task;
+export default Task;

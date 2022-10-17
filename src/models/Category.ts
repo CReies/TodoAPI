@@ -1,11 +1,12 @@
-const mongoose = require('mongoose');
-const Schema = mongoose.Schema;
+import { Schema, model } from 'mongoose';
+import { v4 } from 'uuid';
+import { ICategory } from '../util/types';
 
-const categorySchema = new Schema(
+const categorySchema = new Schema<ICategory>(
 	{
 		_id: {
 			type: String,
-			default: () => new mongoose.Types.ObjectId().toString(),
+			default: v4(),
 		},
 		title: {
 			type: String,
@@ -37,6 +38,6 @@ const categorySchema = new Schema(
 	{ _id: false }
 );
 
-const Category = mongoose.model('Category', categorySchema);
+const Category = model('Category', categorySchema);
 
-module.exports = Category;
+export default Category;
