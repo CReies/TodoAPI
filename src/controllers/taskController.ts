@@ -1,13 +1,13 @@
-import { NextFunction, Request, Response } from 'express';
 import createError from 'http-errors';
 import Category from '../models/Category';
 import Task from '../models/Task';
+import type { NextFunction, Request, Response } from 'express';
 
 export const getAll = async (
 	_req: Request,
 	res: Response,
 	nxt: NextFunction
-): Promise<object | undefined> => {
+): Promise<Response | undefined> => {
 	try {
 		// TODO .skip(page * limit).limit(limit)
 		// TODO find({ user: req.user._id })
@@ -29,7 +29,7 @@ export const getOne = async (
 	req: Request,
 	res: Response,
 	nxt: NextFunction
-): Promise<object | undefined> => {
+): Promise<Response | undefined> => {
 	try {
 		const task = await Task.findById(req.params.id).populate('category').lean();
 
@@ -54,7 +54,7 @@ export const create = async (
 	req: Request,
 	res: Response,
 	nxt: NextFunction
-): Promise<object | undefined> => {
+): Promise<Response | undefined> => {
 	try {
 		const task = new Task(req.body);
 		const categoryId = req.body.category ?? '0';
@@ -88,7 +88,7 @@ export const update = async (
 	req: Request,
 	res: Response,
 	nxt: NextFunction
-): Promise<object | undefined> => {
+): Promise<Response | undefined> => {
 	try {
 		const { id } = req.params;
 		const task = await Task.findByIdAndUpdate(id, req.body).lean();
@@ -114,7 +114,7 @@ export const deleteOne = async (
 	req: Request,
 	res: Response,
 	nxt: NextFunction
-): Promise<object | undefined> => {
+): Promise<Response | undefined> => {
 	try {
 		const { id } = req.params;
 		const task = await Task.findById(id);
@@ -144,7 +144,7 @@ export const complete = async (
 	req: Request,
 	res: Response,
 	nxt: NextFunction
-): Promise<object | undefined> => {
+): Promise<Response | undefined> => {
 	try {
 		const { id } = req.params;
 		const task = await Task.findById(id);
@@ -171,7 +171,7 @@ export const uncomplete = async (
 	req: Request,
 	res: Response,
 	nxt: NextFunction
-): Promise<object | undefined> => {
+): Promise<Response | undefined> => {
 	try {
 		const { id } = req.params;
 		const task = await Task.findById(id);

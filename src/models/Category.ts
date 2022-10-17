@@ -1,6 +1,6 @@
 import { Schema, model } from 'mongoose';
 import { v4 } from 'uuid';
-import { ICategory } from '../util/types';
+import type { ICategory } from '../util/types';
 
 const categorySchema = new Schema<ICategory>(
 	{

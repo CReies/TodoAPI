@@ -4,8 +4,8 @@ import express from 'express';
 import logger from 'morgan';
 import dotenv from 'dotenv';
 import connection from './db/connection';
-import * as routers from './routes/index';
 import errorMiddleware from './middlewares/errorMiddleware';
+import * as routers from './routes/index';
 
 dotenv.config();
 

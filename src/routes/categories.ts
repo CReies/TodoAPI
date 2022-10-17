@@ -1,24 +1,19 @@
 import express from 'express';
-import {
-	getAll,
-	getOne,
-	create,
-	update,
-	deleteOne,
-	search,
-} from '../controllers/categoryController';
+import * as categoryController from '../controllers/categoryController';
+import type { RequestHandler } from 'express';
+
 const router = express.Router();
 
-router.get('/', getAll);
+router.get('/', categoryController.getAll as RequestHandler);
 
-router.get('/:id', getOne);
+router.get('/:id', categoryController.getOne as RequestHandler);
 
-router.get('/search/:search', search);
+router.get('/search/:search', categoryController.search as RequestHandler);
 
-router.post('/', create);
+router.post('/', categoryController.create as RequestHandler);
 
-router.put('/:id', update);
+router.put('/:id', categoryController.update as RequestHandler);
 
-router.delete('/:id', deleteOne);
+router.delete('/:id', categoryController.deleteOne as RequestHandler);
 
 export default router;

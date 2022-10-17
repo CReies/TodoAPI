@@ -1,30 +1,23 @@
 import express from 'express';
-import {
-	getAll,
-	getOne,
-	create,
-	update,
-	deleteOne,
-	complete,
-	uncomplete,
-	search,
-} from '../controllers/taskController';
+import * as taskController from '../controllers/taskController';
+import type { RequestHandler } from 'express';
+
 const router = express.Router();
 
-router.get('/', getAll);
+router.get('/', taskController.getAll as RequestHandler);
 
-router.get('/:id', getOne);
+router.get('/:id', taskController.getOne as RequestHandler);
 
-router.get('/search/:search', search);
+router.get('/search/:search', taskController.search as RequestHandler);
 
-router.post('/', create);
+router.post('/', taskController.create as RequestHandler);
 
-router.put('/:id', update);
+router.put('/:id', taskController.update as RequestHandler);
 
-router.put('/complete/:id', complete);
+router.put('/complete/:id', taskController.complete as RequestHandler);
 
-router.put('/uncomplete/:id', uncomplete);
+router.put('/uncomplete/:id', taskController.uncomplete as RequestHandler);
 
-router.delete('/:id', deleteOne);
+router.delete('/:id', taskController.deleteOne as RequestHandler);
 
 export default router;
