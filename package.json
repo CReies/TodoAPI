@@ -7,9 +7,10 @@
 		"start": "node ./dist/bin/www.js",
 		"dev": "ts-node-dev ./src/bin/www.ts",
 		"lint": "eslint",
-		"format":"prettier --write"
+		"format": "prettier --write"
 	},
 	"dependencies": {
+		"bcrypt": "5.1.0",
 		"cors": "2.8.5",
 		"debug": "2.6.9",
 		"dotenv": "16.0.1",
