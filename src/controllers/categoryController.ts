@@ -1,13 +1,9 @@
+import type { RequestHandler } from 'express';
 import createError from 'http-errors';
 import Category from '../models/Category';
 import Task from '../models/Task';
-import type { NextFunction, Request, Response } from 'express';
 
-export const getAll = async (
-	_req: Request,
-	res: Response,
-	nxt: NextFunction
-): Promise<Response | undefined> => {
+export const getAll: RequestHandler = async (_req, res, nxt) => {
 	try {
 		const categories = await Category.find({}).populate('tasks').lean();
 		return res.json(categories);
@@ -22,11 +18,7 @@ export const getAll = async (
 	}
 };
 
-export const getOne = async (
-	req: Request,
-	res: Response,
-	nxt: NextFunction
-): Promise<Response | undefined> => {
+export const getOne: RequestHandler = async (req, res, nxt) => {
 	try {
 		const category = await Category.findById(req.params.id).populate('tasks').lean();
 		return res.json(category);
@@ -41,11 +33,7 @@ export const getOne = async (
 	}
 };
 
-export const create = async (
-	req: Request,
-	res: Response,
-	nxt: NextFunction
-): Promise<Response | undefined> => {
+export const create: RequestHandler = async (req, res, nxt) => {
 	try {
 		const category = new Category(req.body);
 		await category.save();
@@ -63,11 +51,7 @@ export const create = async (
 	}
 };
 
-export const update = async (
-	req: Request,
-	res: Response,
-	nxt: NextFunction
-): Promise<Response | undefined> => {
+export const update: RequestHandler = async (req, res, nxt) => {
 	try {
 		const { id } = req.params;
 		const category = await Category.findByIdAndUpdate(id, req.body).lean();
@@ -83,11 +67,7 @@ export const update = async (
 	}
 };
 
-export const deleteOne = async (
-	req: Request,
-	res: Response,
-	nxt: NextFunction
-): Promise<Response | undefined> => {
+export const deleteOne: RequestHandler = async (req, res, nxt) => {
 	try {
 		const { id } = req.params;
 		const category = await Category.findById(id);
@@ -115,11 +95,7 @@ export const deleteOne = async (
 	}
 };
 
-export const search = async (
-	req: Request,
-	res: Response,
-	nxt: NextFunction
-): Promise<Response | undefined> => {
+export const search: RequestHandler = async (req, res, nxt) => {
 	try {
 		const { search } = req.params;
 		const categories = await Category.find({

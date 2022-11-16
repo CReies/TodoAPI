@@ -1,13 +1,9 @@
+import type { RequestHandler } from 'express';
 import createError from 'http-errors';
 import Category from '../models/Category';
 import Task from '../models/Task';
-import type { NextFunction, Request, Response } from 'express';
 
-export const getAll = async (
-	_req: Request,
-	res: Response,
-	nxt: NextFunction
-): Promise<Response | undefined> => {
+export const getAll: RequestHandler = async (_req, res, nxt) => {
 	try {
 		// TODO .skip(page * limit).limit(limit)
 		// TODO find({ user: req.user._id })
@@ -25,11 +21,7 @@ export const getAll = async (
 	}
 };
 
-export const getOne = async (
-	req: Request,
-	res: Response,
-	nxt: NextFunction
-): Promise<Response | undefined> => {
+export const getOne: RequestHandler = async (req, res, nxt) => {
 	try {
 		const task = await Task.findById(req.params.id).populate('category').lean();
 
@@ -50,11 +42,7 @@ export const getOne = async (
 	}
 };
 
-export const create = async (
-	req: Request,
-	res: Response,
-	nxt: NextFunction
-): Promise<Response | undefined> => {
+export const create: RequestHandler = async (req, res, nxt) => {
 	try {
 		const task = new Task(req.body);
 		const categoryId = req.body.category ?? '0';
@@ -84,11 +72,7 @@ export const create = async (
 	}
 };
 
-export const update = async (
-	req: Request,
-	res: Response,
-	nxt: NextFunction
-): Promise<Response | undefined> => {
+export const update: RequestHandler = async (req, res, nxt) => {
 	try {
 		const { id } = req.params;
 		const task = await Task.findByIdAndUpdate(id, req.body).lean();
@@ -110,11 +94,7 @@ export const update = async (
 	}
 };
 
-export const deleteOne = async (
-	req: Request,
-	res: Response,
-	nxt: NextFunction
-): Promise<Response | undefined> => {
+export const deleteOne: RequestHandler = async (req, res, nxt) => {
 	try {
 		const { id } = req.params;
 		const task = await Task.findById(id);
@@ -140,11 +120,7 @@ export const deleteOne = async (
 	}
 };
 
-export const complete = async (
-	req: Request,
-	res: Response,
-	nxt: NextFunction
-): Promise<Response | undefined> => {
+export const complete: RequestHandler = async (req, res, nxt) => {
 	try {
 		const { id } = req.params;
 		const task = await Task.findById(id);
@@ -167,11 +143,7 @@ export const complete = async (
 	}
 };
 
-export const uncomplete = async (
-	req: Request,
-	res: Response,
-	nxt: NextFunction
-): Promise<Response | undefined> => {
+export const uncomplete: RequestHandler = async (req, res, nxt) => {
 	try {
 		const { id } = req.params;
 		const task = await Task.findById(id);
@@ -194,11 +166,7 @@ export const uncomplete = async (
 	}
 };
 
-export const search = async (
-	req: Request,
-	res: Response,
-	nxt: NextFunction
-): Promise<object | undefined> => {
+export const search: RequestHandler = async (req, res, nxt) => {
 	try {
 		const { search } = req.params;
 		const tasks = await Task.find({ $text: { $search: search } })
