@@ -23,6 +23,7 @@ void connection();
 // Routes
 app.use('/api/tasks', routers.tasksRouter);
 app.use('/api/categories', routers.categoriesRouter);
+app.use('/api/auth', routers.authRouter);
 
 // Catch 404 and forward to error handler
 app.use((_req, _res, next) => {
