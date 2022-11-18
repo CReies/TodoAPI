@@ -3,7 +3,7 @@ export interface ITask {
 	title: string;
 	description?: string;
 	category: ICategory['_id'];
-	user: IUser["_id"]
+	user: IUser['_id'];
 	completed: boolean;
 	createdAt: Date;
 }

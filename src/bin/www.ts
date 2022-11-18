@@ -67,10 +67,7 @@ const onListening = (): void => {
 		return;
 	}
 
-	const bind =
-		typeof addr === 'string'
-			? 'pipe ' + addr
-			: `port ${addr.port}\n${addr.address}`;
+	const bind = typeof addr === 'string' ? 'pipe ' + addr : `port ${addr.port}\n${addr.address}`;
 	console.log('\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n');
 	console.log('==============================\n');
 	debug('Listening on ' + bind);
