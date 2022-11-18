@@ -7,11 +7,6 @@
 		"module": "commonjs",
 		"rootDir": "./src",
 		"moduleResolution": "node",
-		"baseUrl": "./src",
-		"paths": {
-			"@src/*": ["./*"],
-			"@math/*": ["./math/*"]
-		},
 		"allowJs": true,
 		"outDir": "dist",
 		"removeComments": true,
