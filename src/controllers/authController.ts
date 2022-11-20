@@ -2,6 +2,7 @@ import bcrypt from 'bcrypt';
 import { RequestHandler } from 'express';
 import { body, validationResult } from 'express-validator';
 import createError from 'http-errors';
+import jwt from 'jsonwebtoken';
 import User from '../models/User';
 
 export const register: RequestHandler = async (req, res, nxt) => {
@@ -51,6 +52,22 @@ export const login: RequestHandler = async (req, res, nxt) => {
 		const { username, password } = req.body;
 
 		if (!username || !password) return nxt(createError('Not all required inputs are present'));
+
+		const user = await User.findOne({ username });
+		const passwordCorrect = user === null ? false : await bcrypt.compare(password, user.password);
+
+		if (!(user && passwordCorrect)) {
+			return nxt(createError('Invalid user or password'));
+		}
+
+		const userForToken = {
+			id: user._id,
+			username: user.username,
+		};
+
+		const token = jwt.sign(userForToken, process.env.JWT_ENCRYPT ?? 'secret');
+
+		return res.json(token);
 	} catch (err) {}
 };
 

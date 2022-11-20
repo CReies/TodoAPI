@@ -1,4 +1,6 @@
-export { };
+import { IUser } from './types';
+
+export {};
 
 declare global {
 	namespace NodeJS {
@@ -6,6 +8,11 @@ declare global {
 			PORT: string | number;
 			MONGO_URI: string;
 			JWT_ENCRYPT: string;
+		}
+	}
+	module Express {
+		interface Request {
+			user: IUser;
 		}
 	}
 }
