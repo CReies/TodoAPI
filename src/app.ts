@@ -7,7 +7,6 @@ import connection from './db/connection';
 import errorMiddleware from './middlewares/errorMiddleware';
 import * as routers from './routes/index';
 
-
 const app = express();
 
 // Middlewares

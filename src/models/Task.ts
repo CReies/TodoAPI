@@ -1,6 +1,6 @@
 import { Schema, model } from 'mongoose';
 import { v4 } from 'uuid';
-import type { ITask } from '../util/types';
+import type { ITask } from '../types/types';
 
 const taskSchema = new Schema<ITask>(
 	{

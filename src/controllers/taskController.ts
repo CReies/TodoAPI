@@ -53,7 +53,7 @@ export const create: RequestHandler = async (req, res, nxt) => {
 			return undefined;
 		}
 
-		category.tasks = [...category.tasks, task._id];
+		category.tasks.push(task._id as string);
 
 		await task.save();
 		await category.save();

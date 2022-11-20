@@ -1,6 +1,6 @@
 import { v4 } from 'uuid';
 import { Schema, model } from 'mongoose';
-import { IUser } from '../util/types';
+import { IUser } from '../types/types';
 
 const userSchema = new Schema<IUser>({
 	_id: {
