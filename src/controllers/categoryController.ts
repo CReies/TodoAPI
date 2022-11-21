@@ -70,13 +70,15 @@ export const update: RequestHandler = async (req, res, nxt) => {
 export const deleteOne: RequestHandler = async (req, res, nxt) => {
 	try {
 		const { id } = req.params;
+		const deleteTasks = req.query?.deleteTasks === 'true';
 		const category = await Category.findById(id);
 		const tasks = await Task.find({ category: id });
 
 		if (category == null) return;
 
 		for (const task of tasks) {
-			void task.updateOne({ category: '0' });
+			if (deleteTasks) void task.delete();
+			else void task.updateOne({ category: "0" })
 		}
 
 		category.deleteOne();
