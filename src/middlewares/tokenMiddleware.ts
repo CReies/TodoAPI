@@ -2,7 +2,7 @@ import createError from 'http-errors';
 import { RequestHandler } from 'express';
 import jwt from 'jsonwebtoken';
 
-export const tokenMiddleware: RequestHandler = (req, _res, nxt) => {
+const tokenMiddleware: RequestHandler = (req, _res, nxt) => {
 	try {
 		let token = req.headers?.authorization;
 
@@ -28,3 +28,5 @@ export const tokenMiddleware: RequestHandler = (req, _res, nxt) => {
 		return undefined;
 	}
 };
+
+export default tokenMiddleware;
