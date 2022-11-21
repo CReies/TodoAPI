@@ -169,7 +169,8 @@ export const uncomplete: RequestHandler = async (req, res, nxt) => {
 export const search: RequestHandler = async (req, res, nxt) => {
 	try {
 		const { search } = req.params;
-		const tasks = await Task.find({ $text: { $search: search } })
+		const regSearch = new RegExp(search);
+		const tasks = await Task.find({ $or: [{ title: regSearch }, { description: regSearch }] })
 			.populate('category')
 			.lean();
 		return res.json(tasks);
