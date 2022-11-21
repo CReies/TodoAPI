@@ -1,3 +1,4 @@
+import tokenMiddleware from './middlewares/tokenMiddleware';
 import cors from 'cors';
 import 'dotenv-safe/config';
 import express from 'express';
@@ -19,9 +20,9 @@ app.use(express.static('../app/build'));
 void connection();
 
 // Routes
-app.use('/api/tasks', routers.tasksRouter);
-app.use('/api/categories', routers.categoriesRouter);
-app.use('/api/auth', routers.authRouter);
+app.use('/api/v1/tasks', tokenMiddleware, routers.tasksRouter);
+app.use('/api/v1/categories', tokenMiddleware, routers.categoriesRouter);
+app.use('/api/v1/auth', routers.authRouter);
 
 // Catch 404 and forward to error handler
 app.use((_req, _res, next) => {
