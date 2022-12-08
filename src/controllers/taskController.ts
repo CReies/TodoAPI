@@ -2,12 +2,14 @@ import type { RequestHandler } from 'express';
 import createError from 'http-errors';
 import Category from '../models/Category';
 import Task from '../models/Task';
+import User from '../models/User';
 
-export const getAll: RequestHandler = async (_req, res, nxt) => {
+export const getAll: RequestHandler = async (req, res, nxt) => {
 	try {
+		if (req.user == null) return nxt(createError(401, 'No Authorized'));
+
 		// TODO .skip(page * limit).limit(limit)
-		// TODO find({ user: req.user._id })
-		const tasks = await Task.find({}).populate('category').sort({ createdAt: 1 }).lean();
+		const tasks = await Task.find({ user: req.user._id }).populate('category').sort({ createdAt: 1 }).lean();
 
 		return res.json(tasks);
 	} catch (err) {
@@ -46,17 +48,26 @@ export const create: RequestHandler = async (req, res, nxt) => {
 	try {
 		const task = new Task(req.body);
 		const categoryId = req.body.category ?? '0';
+		const userId = req.body.user ?? '0';
 		const category = await Category.findById(categoryId);
+		const user = await User.findById(userId);
 
 		if (category == null) {
 			nxt(createError(400, "Category doesn't exist"));
 			return undefined;
 		}
 
+		if (user == null) {
+			nxt(createError(400, "User Doesn't exist"));
+			return undefined;
+		}
+
 		category.tasks.push(task._id as string);
+		user.tasks.push(task._id as string);
 
 		await task.save();
 		await category.save();
+		await user.save();
 
 		return res.status(201).json({
 			status: 'Task Saved',

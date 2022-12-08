@@ -14,11 +14,12 @@ export interface ICategory {
 	description?: string;
 	color: string;
 	createdAt: Date;
-	tasks: Array<ITask['_id']>;
+	tasks: ITask['_id'][];
 }
 
 export interface IUser {
 	_id: string;
 	username: string;
 	password: string;
+	tasks: ITask['_id'][];
 }

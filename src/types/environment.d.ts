@@ -10,9 +10,15 @@ declare global {
 			JWT_ENCRYPT: string;
 		}
 	}
-	module Express {
+}
+declare global {
+	namespace Express {
 		interface Request {
 			user: IUser;
 		}
 	}
+}
+
+declare module 'jsonwebtoken' {
+	export interface UserFromJwtPayload extends IUser {}
 }

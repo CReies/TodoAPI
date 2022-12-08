@@ -7,7 +7,7 @@ import User from '../models/User';
 
 export const register: RequestHandler = async (req, res, nxt) => {
 	try {
-		const { username, password, passwordConfirm } = req.body;
+		const { _id, username, password, passwordConfirm } = req.body;
 
 		if (!username || !password || !passwordConfirm) return nxt(createError('Not all required inputs are present.'));
 
@@ -33,7 +33,7 @@ export const register: RequestHandler = async (req, res, nxt) => {
 		return bcrypt.hash(password, 10, async (err, hash) => {
 			if (err) return nxt(createError(err));
 
-			const user = await User.create({ username, password: hash });
+			const user = await User.create({ _id, username, password: hash });
 			return res.json(user);
 		});
 	} catch (err) {

@@ -1,6 +1,6 @@
-import createError from 'http-errors';
 import { RequestHandler } from 'express';
-import jwt from 'jsonwebtoken';
+import createError from 'http-errors';
+import { userFromJwt } from '../util/functions';
 
 const tokenMiddleware: RequestHandler = (req, _res, nxt) => {
 	try {
@@ -13,10 +13,11 @@ const tokenMiddleware: RequestHandler = (req, _res, nxt) => {
 
 		if (!jwtSecret) throw new Error('');
 
-		const decodedToken = jwt.verify(token, jwtSecret);
+		const decodedToken = userFromJwt(token);
 
-		if (decodedToken instanceof String) return nxt(createError(401, ''));
+		if (decodedToken == null) return nxt(createError(401, 'No Token'));
 
+		req.user = decodedToken;
 		return nxt();
 	} catch (err) {
 		let msg = 'Unknown Error';
