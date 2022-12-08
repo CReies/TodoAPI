@@ -61,7 +61,7 @@ export const login: RequestHandler = async (req, res, nxt) => {
 		}
 
 		const userForToken = {
-			id: user._id,
+			_id: user._id,
 			username: user.username,
 		};
 

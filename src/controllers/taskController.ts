@@ -46,9 +46,9 @@ export const getOne: RequestHandler = async (req, res, nxt) => {
 
 export const create: RequestHandler = async (req, res, nxt) => {
 	try {
-		const task = new Task(req.body);
+		const task = new Task({ ...req.body, user: req.user._id });
 		const categoryId = req.body.category ?? '0';
-		const userId = req.body.user ?? '0';
+		const userId = req.user._id;
 		const category = await Category.findById(categoryId);
 		const user = await User.findById(userId);
 
