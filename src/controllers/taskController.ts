@@ -111,11 +111,19 @@ export const deleteOne: RequestHandler = async (req, res, nxt) => {
 		const task = await Task.findById(id);
 
 		if (task == null) {
-			nxt(createError(404, "Task doesn't exist"));
-			return undefined;
+			return nxt(createError(404, "Task doesn't exist"));
+		}
+
+		const user = await User.findById(task.user);
+
+		if (user == null) {
+			return nxt(createError(404, "User doesn't exist"));
 		}
 
 		await task.delete();
+		const userTasksModified = user.tasks.filter(t => t !== task._id);
+		user.tasks = userTasksModified;
+		await user.save();
 
 		return res.json({
 			status: 'Task Deleted',
